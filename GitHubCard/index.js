@@ -3,7 +3,19 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+let divCards = document.querySelector('.cards');
 
+axios
+	.get('https://api.github.com/users/MichaelHabermas')
+	.then(futureData => {
+		console.log(futureData);
+		document.querySelector('.cards').appendChild(cardCreator(futureData));
+	})
+	.catch(drama => {
+		console.log(drama);
+	});
+
+// console.log('this is the mGH data AGAIN: ' + mGH);
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,6 +61,59 @@ const followersArray = [];
       </div>
     </div>
 */
+const cardCreator = obj => {
+	let divCard = document.createElement('div');
+	let imgUser = document.createElement('img');
+	let divCardInfo = document.createElement('div');
+	let h3Name = document.createElement('h3');
+	let pUsername = document.createElement('p');
+	let pLocation = document.createElement('p');
+	let pProfile = document.createElement('p');
+	let aUserPage = document.createElement('a');
+	let pFollowers = document.createElement('p');
+	let pFollowing = document.createElement('p');
+	let pBio = document.createElement('p');
+
+	divCard.classList.add('card');
+	divCardInfo.classList.add('card-info');
+	h3Name.classList.add('name');
+	pUsername.classList.add('username');
+
+	imgUser.setAttribute('src', obj.data.avatar_url);
+	aUserPage.setAttribute('href', '#');
+
+	// h3Name.textContent = `${obj.data}`;
+	// pUsername.textContent = `${obj.data}`;
+	// pLocation.textContent = `${obj.data}`;
+	// pProfile.textContent = `${obj.data}`;
+	// aUserPage.textContent = `${obj.data}`;
+	// pFollowers.textContent = `${obj.data}`;
+	// pFollowing.textContent = `${obj.data}`;
+	pBio.textContent = `${obj.data.bio}`;
+
+	// <h3 class="name">{users name}</h3>
+	//       <p class="username">{users user name}</p>
+	//       <p>Location: {users location}</p>
+	//       <p>Profile:
+	//         <a href={address to users github page}>{address to users github page}</a>
+	//       </p>
+	//       <p>Followers: {users followers count}</p>
+	//       <p>Following: {users following count}</p>
+	//       <p>Bio: {users bio}</p>
+
+	divCard.appendChild(imgUser);
+	divCard.appendChild(divCardInfo);
+	divCardInfo.appendChild(h3Name);
+	divCardInfo.appendChild(pUsername);
+	divCardInfo.appendChild(pLocation);
+	divCardInfo.appendChild(pProfile);
+	divCardInfo.appendChild(pFollowers);
+	divCardInfo.appendChild(pFollowing);
+	divCardInfo.appendChild(pBio);
+	pProfile.appendChild(aUserPage);
+
+	return divCard;
+};
 
 /*
   List of LS Instructors Github username's:
